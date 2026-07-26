@@ -1,10 +1,13 @@
 <div align="center">
 
-# echo
+# Echo Monorepo
 
-> A TypeScript project built with Next.js
+> High-performance Next.js workspace managed with Turborepo and pnpm.
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-55%2525-3178C6?style=flat-square&logo=typescript)](#) [![Next.js](https://img.shields.io/badge/Next.js--000000?style=flat-square&logo=nextdotjs)](#) [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D20-5FA04E?style=flat-square&logo=nodedotjs)](#)
+[![pnpm](https://img.shields.io/badge/pnpm-9.x-F69220?style=flat-square&logo=pnpm&logoColor=white)](#)
+[![Turborepo](https://img.shields.io/badge/Turborepo-2.x-EF4444?style=flat-square&logo=turborepo&logoColor=white)](#)
+[![Next.js](https://img.shields.io/badge/Next.js-16.x-000000?style=flat-square&logo=nextdotjs&logoColor=white)](#)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript&logoColor=white)](#)
 
 </div>
 
@@ -12,13 +15,16 @@
 
 ## 📖 Overview
 
-This project is built with TypeScript using Next.js.
+**Echo** is a full-stack Monorepo containing multiple Next.js applications and shared internal packages, organized using `pnpm` workspaces and powered by `Turborepo` for optimized caching and task execution.
 
----
+### Applications & Packages
 
-## ✨ Features
-
-- Built with Next.js
+- **`apps/web`**: Main Next.js web application.
+- **`apps/widget`**: Secondary Next.js application / widget dashboard.
+- **`packages/ui`**: Shared UI component library.
+- **`packages/math`**: Shared mathematical utilities library.
+- **`packages/typescript-config`**: Centralized TypeScript configurations.
+- **`packages/eslint-config`**: Centralized ESLint configurations.
 
 ---
 
@@ -26,99 +32,44 @@ This project is built with TypeScript using Next.js.
 
 ```mermaid
 graph TD
-  A[Next.js App] --> B[Pages/Routes]
-  B --> C[Components]
-  C --> D[State Management]
-  C --> E[API Client]
-  E --> F[Backend API]
-```
+    subgraph Apps
+        A[apps/web]
+        B[apps/widget]
+    end
 
-The Next.js application uses a component-based architecture with centralized state management.
+    subgraph Internal Packages
+        C[@workspace/ui]
+        D[@workspace/math]
+        E[@workspace/typescript-config]
+        F[@workspace/eslint-config]
+    end
+
+    A --> C
+    A --> D
+    B --> C
+    A -.-> E
+    B -.-> E
+    C -.-> E
+    D -.-> E
+```
 
 ---
 
 ## 📁 Project Structure
 
-```
-├── apps
-│   ├── web
-│   │   ├── app
-│   │   │   ├── layout.d.ts
-│   │   │   ├── layout.js
-│   │   │   ├── layout.tsx
-│   │   │   ├── page.d.ts
-│   │   │   ├── page.js
-│   │   │   └── page.tsx
-│   │   ├── components
-│   │   │   ├── theme-provider.d.ts
-│   │   │   ├── theme-provider.js
-│   │   │   └── theme-provider.tsx
-│   │   ├── components.json
-│   │   ├── eslint.config.js
-│   │   ├── next-env.d.ts
-│   │   ├── next.config.d.ts
-│   │   ├── next.config.js
-│   │   ├── next.config.ts
-│   │   ├── package.json
-│   │   ├── postcss.config.mjs
-│   │   └── tsconfig.json
-│   └── widget
-│       ├── app
-│       │   ├── layout.d.ts
-│       │   ├── layout.js
-│       │   ├── layout.tsx
-│       │   ├── page.d.ts
-│       │   ├── page.js
-│       │   └── page.tsx
-│       ├── components
-│       │   ├── theme-provider.d.ts
-│       │   ├── theme-provider.js
-│       │   └── theme-provider.tsx
-│       ├── components.json
-│       ├── eslint.config.js
-│       ├── next-env.d.ts
-│       ├── next.config.d.ts
-│       ├── next.config.js
-│       ├── next.config.ts
-│       ├── package.json
-│       ├── postcss.config.mjs
-│       └── tsconfig.json
-├── packages
-│   ├── eslint-config
-│   │   ├── base.js
-│   │   ├── next.js
-│   │   ├── package.json
-│   │   ├── react-internal.js
-│   │   └── README.md
-│   ├── math
-│   │   ├── src
-│   │   │   ├── add.d.ts
-│   │   │   ├── add.js
-│   │   │   ├── add.ts
-│   │   │   └── multiple.ts
-│   │   ├── package.json
-│   │   ├── tsconfig.d.ts
-│   │   ├── tsconfig.js
-│   │   └── tsconfig.json
-│   ├── typescript-config
-│   │   ├── base.json
-│   │   ├── nextjs.json
-│   │   ├── package.json
-│   │   ├── react-library.json
-│   │   └── README.md
-│   └── ui
-│       ├── components.json
-│       ├── eslint.config.js
-│       ├── package.json
-│       ├── postcss.config.mjs
-│       ├── tsconfig.json
-│       └── tsconfig.lint.json
-├── AGENTS.md
-├── package.json
+```text
+.
+├── apps/
+│   ├── web/          # Main Next.js App Router application
+│   └── widget/       # Widget Next.js application
+├── packages/
+│   ├── eslint-config/      # Shared ESLint configs
+│   ├── math/               # Shared math utilities
+│   ├── typescript-config/  # Shared tsconfig bases
+│   └── ui/                 # Shared UI components
 ├── pnpm-workspace.yaml
-├── README.md
-├── tsconfig.json
-└── turbo.json
+├── turbo.json
+└── package.json
 ```
 
 ---
@@ -127,55 +78,46 @@ The Next.js application uses a component-based architecture with centralized sta
 
 ### Prerequisites
 
-- Node.js >=20
+- **Node.js**: `>=20.0.0`
+- **pnpm**: `>=9.0.0`
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
-cd <project-name>
+   cd echo
    ```
 
-2. **Install dependencies**
+2. **Install workspace dependencies**
    ```bash
-   npm install
+   pnpm install
    ```
-
-3. **Build the project**
-   ```bash
-   npm run build
-   ```
-
 
 ---
 
 ## 💡 Usage
 
-### Running the project
+### Running Development Server
 
-Start the application:
+To start all applications simultaneously with Turborepo caching:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
+### Building for Production
 
----
+To build all apps and packages:
 
-## 🤝 Contributing
+```bash
+pnpm build
+```
 
-Contributions are welcome! Here's how to get started:
+### Type Checking & Linting
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Commit your changes (`git commit -m 'Add amazing feature'`)
-5. Push to the branch (`git push origin feature/amazing-feature`)
-6. Open a Pull Request
-
----
-
-## 📄 License
-
-See the [LICENSE](LICENSE) file for details.
+```bash
+pnpm typecheck
+pnpm lint
+```
