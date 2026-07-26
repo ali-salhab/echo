@@ -1,0 +1,11 @@
+{
+  "extends": "@workspace/typescript-config/base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  // here we tell TypeScript to include all files in the src directory for compilation
+  "include": ["src"],
+  // Exclude node_modules and dist directories from the compilation
+  "exclude": ["node_modules", "dist"]
+}
