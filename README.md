@@ -33,15 +33,15 @@
 ```mermaid
 graph TD
     subgraph Apps
-        A[apps/web]
-        B[apps/widget]
+        A["apps/web"]
+        B["apps/widget"]
     end
 
     subgraph Internal Packages
-        C[@workspace/ui]
-        D[@workspace/math]
-        E[@workspace/typescript-config]
-        F[@workspace/eslint-config]
+        C["@workspace/ui"]
+        D["@workspace/math"]
+        E["@workspace/typescript-config"]
+        F["@workspace/eslint-config"]
     end
 
     A --> C
