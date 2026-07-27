@@ -6,7 +6,7 @@
     "setup": "convex dev --until-success"
   },
   "exports": {
-    "./api": "./convex/_generated/api.js",
+    "./apii": "./convex/_generated/api.js",
     "./server": "./convex/_generated/server.js"
   },
   "devDependencies": {

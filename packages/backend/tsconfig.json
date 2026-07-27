@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@workspace/backend/*": ["./*"]
+      "@workspace/backend/*": ["./convex/*"]
     }
   },
   // here we tell TypeScript to include all files in the src directory for compilation

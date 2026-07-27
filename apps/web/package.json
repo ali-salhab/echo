@@ -5,23 +5,7 @@
   "private": true,
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": {
-      "@workspace/*": [
-        "../*"
-      ],
-      "@web/*": [
-        "./*"
-      ],
-      "@workspace/ui/*": [
-        "../ui/src/*"
-      ],
-      "@workspace/math/*": [
-        "../math/src/*"
-      ],
-      "@workspace/backend/*": [
-        "../../packages/backend/*"
-      ]
-    }
+    "paths": {}
   },
   "scripts": {
     "dev": "next dev -p 3000",
