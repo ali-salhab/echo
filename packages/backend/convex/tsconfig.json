@@ -18,7 +18,9 @@
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    // we can't reach process.env.NODE_ENV in the browser, so we need to define it as a global variable
+    "types": ["node"]
   },
   "include": ["./**/*"],
   "exclude": ["./_generated"]

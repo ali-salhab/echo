@@ -10,6 +10,7 @@
     "./server": "./convex/_generated/server.js"
   },
   "devDependencies": {
+    "@types/node": "^20.19.41",
     "@workspace/typescript-config": "workspace:*",
     "typescript": "latest"
   },

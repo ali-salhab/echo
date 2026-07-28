@@ -1,13 +1,15 @@
 {
   "extends": "@workspace/typescript-config/base.json",
   "compilerOptions": {
+    "target": "es2022",
+    "lib": ["es2022"],
     "baseUrl": ".",
+    "types": ["node"],
+    "typeRoots": ["./node_modules/@types", "../../node_modules/@types"],
     "paths": {
       "@workspace/backend/*": ["./convex/*"]
     }
   },
-  // here we tell TypeScript to include all files in the src directory for compilation
-  "include": ["src"],
-  // Exclude node_modules and dist directories from the compilation
+  "include": ["convex"],
   "exclude": ["node_modules"]
 }
