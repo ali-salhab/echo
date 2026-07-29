@@ -12,6 +12,7 @@ import {
 import { api } from "@workspace/backend/_generated/api"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { UserButton, SignInButton } from "@clerk/nextjs"
+import { AuthGuard } from "@/modules/auth/ui/components/auth-guard"
 export default function Page() {
   const users = useQuery(api.users.getMany)
   const addUser = useMutation(api.users.add)
@@ -24,7 +25,6 @@ export default function Page() {
       console.error(error)
     }
   }
-  console.log("users", users)
   return (
     <div className="flex min-h-screen flex-col p-6">
       <div className="fixed top-0 left-0 flex w-full justify-between bg-gray-500 p-3">
@@ -48,21 +48,12 @@ export default function Page() {
             add user
           </Button>
         </div>
-        <div>
-          <Authenticated>
-            <UserButton />
-          </Authenticated>
-          <Unauthenticated>
-            <SignInButton />
-          </Unauthenticated>
-        </div>
+        <div></div>
       </div>
 
-      <div className="m-3 flex flex-col items-center justify-center gap-3 bg-amber-400 p-3">
-        <h1 className="m-3 w-screen overflow-hidden bg-amber-600 p-2">
-          {JSON.stringify(users)}
-        </h1>
-      </div>
+      <AuthGuard>
+        <div>Children for AuthGuard</div>
+      </AuthGuard>
     </div>
   )
 }
