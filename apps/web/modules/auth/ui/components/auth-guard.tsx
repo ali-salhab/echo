@@ -1,3 +1,5 @@
+"use client"
+import { UserButton } from "@clerk/nextjs"
 import { Authenticated, Unauthenticated, AuthLoading } from "convex/react"
 import AuthLayout from "../layouts/auth-layout"
 import { SignInPageView } from "../views/sign-in"
@@ -11,9 +13,13 @@ export const AuthGuard = ({ children }: { children: React.ReactNode }) => {
         </AuthLayout>
       </AuthLoading>
       <Authenticated>
-        <AuthLayout>{children}=</AuthLayout>
+        <h1>authed</h1>
+        <UserButton />
+        <AuthLayout>{children}</AuthLayout>
       </Authenticated>
       <Unauthenticated>
+        <h1>unauthenticated</h1>
+
         <AuthLayout>
           <SignInPageView />
         </AuthLayout>

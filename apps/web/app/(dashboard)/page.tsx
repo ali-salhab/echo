@@ -11,8 +11,9 @@ import {
 } from "convex/react"
 import { api } from "@workspace/backend/_generated/api"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
-import { UserButton, SignInButton } from "@clerk/nextjs"
+import { UserButton, SignInButton, OrganizationSwitcher } from "@clerk/nextjs"
 import { AuthGuard } from "@/modules/auth/ui/components/auth-guard"
+import { OrganizationGuard } from "@/modules/auth/ui/components/orgaanization-guard"
 export default function Page() {
   const users = useQuery(api.users.getMany)
   const addUser = useMutation(api.users.add)
@@ -27,33 +28,18 @@ export default function Page() {
   }
   return (
     <div className="flex min-h-screen flex-col p-6">
-      <div className="fixed top-0 left-0 flex w-full justify-between bg-gray-500 p-3">
-        <div>
-          <Image src="/logo.png" alt="Logo" width={50} height={50} />
-        </div>
-        <div className="flex gap-3">
-          <Button
-            className={buttonVariants({ variant: "destructive" })}
-            onClick={() => {
-              console.log("clicked")
-            }}
-          >
-            home
-          </Button>
-          <Button
-            onClick={() => {
-              handleAddUser()
-            }}
-          >
-            add user
-          </Button>
-        </div>
-        <div></div>
-      </div>
-
-      <AuthGuard>
-        <div>Children for AuthGuard</div>
-      </AuthGuard>
+      <p>Apps.web</p>
+      <UserButton />
+      <Button
+        onClick={() => {
+          handleAddUser()
+        }}
+      >
+        add user
+      </Button>
+      <OrganizationSwitcher />
+      <div>{JSON.stringify(users, null, 2)}</div>
+      {/* <OrganizationGuard>ali</OrganizationGuard> */}
     </div>
   )
 }

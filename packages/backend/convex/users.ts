@@ -13,8 +13,13 @@ export const add = mutation({
   handler: async (ctx) => {
     console.log("we called added ")
     const identity = await ctx.auth.getUserIdentity()
+    const orgId = identity?.orgId as string | undefined
+    console.log("orgId", orgId)
     if (!identity) {
       throw new Error("User is not authenticated")
+    }
+    if (!orgId) {
+      throw new Error("User does not belong to an organization")
     }
     const user = await ctx.db.insert("users", {
       name: "New User",
