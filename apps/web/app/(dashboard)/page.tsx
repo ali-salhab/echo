@@ -38,7 +38,7 @@ export default function Page() {
         add user
       </Button>
       <OrganizationSwitcher />
-      <div>{JSON.stringify(users, null, 2)}</div>
+      {/* <div>{JSON.stringify(users, null, 2)}</div> */}
       {/* <OrganizationGuard>ali</OrganizationGuard> */}
     </div>
   )
