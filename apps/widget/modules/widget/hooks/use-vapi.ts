@@ -43,8 +43,10 @@ export const useVapi = () => {
         setTranscript((pre) => {
           return [
             ...pre,
+
             {
               role: message.role === "user" ? "user" : "assistant",
+
               text: message.transcript,
             },
           ]

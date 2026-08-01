@@ -27,7 +27,7 @@ export default function Page() {
     }
   }
   return (
-    <div className="flex min-h-screen flex-col p-6">
+    <div className="flex min-h-screen w-full flex-1 flex-col bg-green-600 p-6">
       <p>Apps.web</p>
       <UserButton />
       <Button
@@ -38,8 +38,6 @@ export default function Page() {
         add user
       </Button>
       <OrganizationSwitcher />
-      {/* <div>{JSON.stringify(users, null, 2)}</div> */}
-      {/* <OrganizationGuard>ali</OrganizationGuard> */}
     </div>
   )
 }
