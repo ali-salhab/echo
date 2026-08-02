@@ -1,14 +1,10 @@
 "use client"
 
 import React, { use } from "react"
-import { useQuery } from "convex/react"
-import { api } from "@workspace/backend/_generated/api"
+
 import { useVapi } from "@/modules/widget/hooks/use-vapi"
 import { Button } from "@workspace/ui/components/button"
 export default function Page() {
-<<<<<<< HEAD
-  return <div className="flex min-h-svh p-6">widget</div>
-=======
   const {
     vapi,
     isConnecting,
@@ -28,5 +24,4 @@ export default function Page() {
       <p>{JSON.stringify(transcript, null, 2)}</p>
     </div>
   )
->>>>>>> adcefe3b82f710a9e4fa5f96ad0f6c7aecf46405
 }
