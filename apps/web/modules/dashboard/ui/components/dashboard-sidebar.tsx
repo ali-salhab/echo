@@ -26,6 +26,7 @@ import {
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
+import { cn } from "@workspace/ui/lib/utils"
 const customerSupportItems = [
   {
     title: "Conversations",
@@ -37,14 +38,8 @@ const customerSupportItems = [
     url: "/knowledge-base",
     icon: LibraryBigIcon,
   },
-  { title: "Conversations", url: "/conversations", icon: InboxIcon },
 ]
 const configurationsItems = [
-  {
-    title: "Widget Customization",
-    url: "/customization",
-    icon: PaletteIcon,
-  },
   {
     title: "Widget Customization",
     url: "/customization",
@@ -116,6 +111,10 @@ export const AppSideBar = ({
                   <SidebarMenuItem key={index}>
                     <Link href={item.url}>
                       <SidebarMenuButton
+                        className={cn(
+                          isActiveUrl(item.url) &&
+                            "bg-linear-to-b from-sidebar-primary to-[#bb63f3]! text-sidebar-primary-foreground! hover:to-[#bb63f3]/90!"
+                        )}
                         isActive={isActiveUrl(item.url)}
                         tooltip={item.title}
                       >
@@ -138,14 +137,19 @@ export const AppSideBar = ({
               {configurationsItems.map((item, index) => {
                 return (
                   <SidebarMenuItem key={index}>
-                    <SidebarMenuButton
-                      isActive={isActiveUrl(item.url)}
-                      tooltip={item.title}
-                    >
-                      <item.icon className="size-4" />
-                      <span>{item.title}</span>
-                    </SidebarMenuButton>
-                    {/* </Link> */}
+                    <Link href={item.url}>
+                      <SidebarMenuButton
+                        className={cn(
+                          isActiveUrl(item.url) &&
+                            "bg-linear-to-b from-sidebar-primary to-[#bb63f3]! text-sidebar-primary-foreground! hover:to-[#bb63f3]/90!"
+                        )}
+                        isActive={isActiveUrl(item.url)}
+                        tooltip={item.title}
+                      >
+                        <item.icon className="size-4" />
+                        <span>{item.title}</span>
+                      </SidebarMenuButton>
+                    </Link>
                   </SidebarMenuItem>
                 )
               })}
@@ -160,14 +164,19 @@ export const AppSideBar = ({
               {accountItems.map((item, index) => {
                 return (
                   <SidebarMenuItem key={index}>
-                    <SidebarMenuButton
-                      isActive={isActiveUrl(item.url)}
-                      tooltip={item.title}
-                    >
-                      <item.icon className="size-4" />
-                      <span>{item.title}</span>
-                    </SidebarMenuButton>
-                    {/* </Link> */}
+                    <Link href={item.url}>
+                      <SidebarMenuButton
+                        className={cn(
+                          isActiveUrl(item.url) &&
+                            "bg-linear-to-b from-sidebar-primary to-[#bb63f3]! text-sidebar-primary-foreground! hover:to-[#bb63f3]/90!"
+                        )}
+                        isActive={isActiveUrl(item.url)}
+                        tooltip={item.title}
+                      >
+                        <item.icon className="size-4" />
+                        <span>{item.title}</span>
+                      </SidebarMenuButton>
+                    </Link>
                   </SidebarMenuItem>
                 )
               })}
