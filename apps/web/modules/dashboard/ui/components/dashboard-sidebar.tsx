@@ -1,0 +1,211 @@
+"use client"
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarRail,
+} from "@workspace/ui/components/sidebar"
+import type React from "react"
+import {
+  CreditCardIcon,
+  InboxIcon,
+  LayoutDashboardIcon,
+  LibraryBigIcon,
+  Mic,
+  Mic2,
+  Palette,
+  PaletteIcon,
+} from "lucide-react"
+import { OrganizationSwitcher, UserButton } from "@clerk/nextjs"
+import { usePathname } from "next/navigation"
+import Link from "next/link"
+import { cn } from "@workspace/ui/lib/utils"
+const customerSupportItems = [
+  {
+    title: "Conversations",
+    url: "/conversations",
+    icon: InboxIcon,
+  },
+  {
+    title: "Knowledge Base",
+    url: "/knowledge-base",
+    icon: LibraryBigIcon,
+  },
+]
+const configurationsItems = [
+  {
+    title: "Widget Customization",
+    url: "/customization",
+    icon: PaletteIcon,
+  },
+  {
+    title: "Integrations",
+    url: "/integrations",
+    icon: LayoutDashboardIcon,
+  },
+  {
+    title: "voice assistant ",
+    url: "/plugins/vapi",
+    icon: Mic2,
+  },
+]
+const accountItems = [
+  {
+    title: "plans & Billing",
+    url: "/billing",
+    icon: CreditCardIcon,
+  },
+]
+export const AppSideBar = ({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) => {
+  const pathName = usePathname()
+  const isActiveUrl = (url: string) => {
+    if (url === "/") return pathName === "/"
+    return pathName.startsWith(url)
+  }
+  return (
+    <Sidebar className="group" collapsible="icon">
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton size={"lg"}>
+              <OrganizationSwitcher
+                appearance={{
+                  elements: {
+                    rootBox: "w-full! h-8!",
+                    avatarBox: "size-4! h-8!",
+                    organizationSwitcherTrigger:
+                      "w-full! justify-start!  group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2!",
+                    organizationPreview:
+                      " group-data-[collapsible=icon]:justify-center! gap-2!",
+                    organizationPreviewTextContainer:
+                      "group-data-[collapsible=icon]:hidden! text-xs! font-medium! text-sidebar-foreground!",
+                    organizationSwitcherTriggerIcon:
+                      "group-data-[collapsible=icon]:hidden! ml-auto! text-sidebar-foreground!",
+                  },
+                }}
+                hidePersonal
+                skipInvitationScreen
+              />
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+      <SidebarContent>
+        {/* Customer support  */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Customer Support</SidebarGroupLabel>
+
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {customerSupportItems.map((item, index) => {
+                return (
+                  <SidebarMenuItem key={index}>
+                    <Link href={item.url}>
+                      <SidebarMenuButton
+                        className={cn(
+                          isActiveUrl(item.url) &&
+                            "bg-linear-to-b from-sidebar-primary to-[#bb63f3]! text-sidebar-primary-foreground! hover:to-[#bb63f3]/90!"
+                        )}
+                        isActive={isActiveUrl(item.url)}
+                        tooltip={item.title}
+                      >
+                        <item.icon className="size-4" />
+                        <span>{item.title}</span>
+                      </SidebarMenuButton>
+                    </Link>
+                  </SidebarMenuItem>
+                )
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        {/* Configurations  */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Configurations Support</SidebarGroupLabel>
+
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {configurationsItems.map((item, index) => {
+                return (
+                  <SidebarMenuItem key={index}>
+                    <Link href={item.url}>
+                      <SidebarMenuButton
+                        className={cn(
+                          isActiveUrl(item.url) &&
+                            "bg-linear-to-b from-sidebar-primary to-[#bb63f3]! text-sidebar-primary-foreground! hover:to-[#bb63f3]/90!"
+                        )}
+                        isActive={isActiveUrl(item.url)}
+                        tooltip={item.title}
+                      >
+                        <item.icon className="size-4" />
+                        <span>{item.title}</span>
+                      </SidebarMenuButton>
+                    </Link>
+                  </SidebarMenuItem>
+                )
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Account</SidebarGroupLabel>
+
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {accountItems.map((item, index) => {
+                return (
+                  <SidebarMenuItem key={index}>
+                    <Link href={item.url}>
+                      <SidebarMenuButton
+                        className={cn(
+                          isActiveUrl(item.url) &&
+                            "bg-linear-to-b from-sidebar-primary to-[#bb63f3]! text-sidebar-primary-foreground! hover:to-[#bb63f3]/90!"
+                        )}
+                        isActive={isActiveUrl(item.url)}
+                        tooltip={item.title}
+                      >
+                        <item.icon className="size-4" />
+                        <span>{item.title}</span>
+                      </SidebarMenuButton>
+                    </Link>
+                  </SidebarMenuItem>
+                )
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <UserButton
+              appearance={{
+                elements: {
+                  rootBox: "w-full! h-8!",
+                  userButtonTrigger:
+                    "w-full! p-2! hover:bg-sidebar-accent! hover:text-sidebar-accent-foreground! group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2!",
+                  userButtonBox:
+                    "w-full! flex-row-reverse! justify-end! gap-2! group-data-[collapsible=icon]:justify-center text-sidebar-foreground! ",
+                  userButtonOuterIdentifier:
+                    "pl-0! group-data-[collapsible=icon]:hidden!",
+                },
+              }}
+              showName
+            />
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+
+      <SidebarRail />
+    </Sidebar>
+  )
+}

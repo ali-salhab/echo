@@ -1,0 +1,15 @@
+{
+  "extends": "@workspace/typescript-config/base.json",
+  "compilerOptions": {
+    "target": "es2022",
+    "lib": ["es2022"],
+    "baseUrl": ".",
+    "types": ["node"],
+    "typeRoots": ["./node_modules/@types", "../../node_modules/@types"],
+    "paths": {
+      "@workspace/backend/*": ["./convex/*"]
+    }
+  },
+  "include": ["convex"],
+  "exclude": ["node_modules"]
+}
