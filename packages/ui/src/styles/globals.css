@@ -6,7 +6,8 @@
 @source "../../../apps/**/*.{ts,tsx}";
 @source "../../../components/**/*.{ts,tsx}";
 @source "../**/*.{ts,tsx}";
-/* here we detect the source files */
+@source "../../../packages/**/*.{ts,tsx}";
+@source "../../src/**/*.{ts,tsx}";
 
 /* here we define the root variables */
 :root {
