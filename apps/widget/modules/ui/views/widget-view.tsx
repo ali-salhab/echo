@@ -1,22 +1,28 @@
 import React from "react"
-import WidgetFooter from "../components/widget-footer"
-import WidgetHeader from "../components/widget-header"
-
+import WidgetAuthScreen from "../screens/widget-auth-screen"
+import { useAtom, useAtomValue } from "jotai"
+import { screenAtom } from "../../widget/atoms/widget-atoms"
+import { Button } from "@workspace/ui/components/button"
 interface Props {
   organizationId: string
 }
 const WidgetView = (p: Props) => {
+  const [screen, setScreen] = useAtom(screenAtom)
+
+  const screenComponents = {
+    error: <div>Error</div>,
+    loading: <div>Loading</div>,
+    selection: <div>Selection</div>,
+    voice: <div>Voice</div>,
+    auth: <WidgetAuthScreen />,
+    inbox: <div>Inbox</div>,
+    chat: <div>Chat</div>,
+    contact: <div>Contact</div>,
+  }
   return (
-    <div className="flex h-screen flex-col overflow-hidden rounded-b-2xl border">
-      <WidgetHeader>
-        <div className="flex flex-col justify-between px-2 py-1">
-          <p className="text-3xl font-semibold">hey there👌 </p>
-          <p className="font-ligth text-lg"> How Can We help you Today ?</p>
-        </div>
-      </WidgetHeader>
-      <div className="flex flex-1">{p.organizationId}</div>
-      <WidgetFooter />
-    </div>
+    <main className="flex h-screen flex-col overflow-hidden rounded-b-2xl border">
+      {screenComponents[screen]}
+    </main>
   )
 }
 
