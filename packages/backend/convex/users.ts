@@ -15,7 +15,7 @@ export const add = mutation({
     const identity = await ctx.auth.getUserIdentity()
     console.log("identity", identity)
 
-    const orgId = identity?.o?.id as string | undefined
+    const orgId = identity?.orgId as string | undefined
     console.log("orgId", orgId)
     if (!identity) {
       throw new Error("User is not authenticated")
