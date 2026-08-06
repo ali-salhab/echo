@@ -1,5 +1,5 @@
 import React from "react"
-import WidgetHeader from "../components/widget-header"
+import { WidgetHeader } from "../components/widget-header"
 import {
   Form,
   FormControl,
@@ -17,7 +17,12 @@ import { Input } from "@workspace/ui/components/input"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/backend/_generated/api"
 import { userAgent } from "next/server"
-import type { Doc } from "@workspace/backend/_generated/dataModel"
+import type { Doc, Id } from "@workspace/backend/_generated/dataModel"
+import { useAtomValue, useSetAtom } from "jotai"
+import {
+  contactSessionIdAtomFamilly,
+  organizationIdAtom,
+} from "@/modules/widget/atoms/widget-atoms"
 
 // steps to define forms
 // 1. define the schema
@@ -28,6 +33,10 @@ const formSchema = z.object({
   email: z.string().email("Invalid email"),
 })
 const WidgetAuthScreen = () => {
+  const organizationId = useAtomValue(organizationIdAtom)
+  const setContactSessionId = useSetAtom(
+    contactSessionIdAtomFamilly(organizationId || "")
+  )
   type formData = z.infer<typeof formSchema>
   const contactSession = useMutation(api.public.contcactSession.create)
   const form = useForm<formData>({
@@ -62,7 +71,7 @@ const WidgetAuthScreen = () => {
       organizationId,
       metadata,
     })
-    console.log(contactSessionId)
+    setContactSessionId(contactSessionId)
   }
   return (
     <>
