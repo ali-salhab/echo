@@ -33,8 +33,7 @@ export const create = mutation({
       experiesAt: expiredAt,
       metadata: args.metadata,
     })
-    return
-    contactSessionId
+    return contactSessionId
   },
 })
 

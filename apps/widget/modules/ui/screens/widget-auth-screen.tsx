@@ -71,6 +71,7 @@ const WidgetAuthScreen = () => {
       organizationId,
       metadata,
     })
+    console.log("contact session id", contactSessionId)
     setContactSessionId(contactSessionId)
   }
   return (

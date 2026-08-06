@@ -5,6 +5,8 @@ import { screenAtom } from "../../widget/atoms/widget-atoms"
 import { Button } from "@workspace/ui/components/button"
 import WidgetErrorScreen from "../screens/widget-error-screen"
 import WidgetLoadingScreen from "../screens/widget-loading-screen"
+import WidgetSelectionScreen from "../screens/widget-selection-screen"
+import WidgetChatScreen from "../screens/widget-chat-screen"
 interface Props {
   organizationId: string | null
 }
@@ -14,11 +16,11 @@ const WidgetView = ({ organizationId }: Props) => {
   const screenComponents = {
     error: <WidgetErrorScreen />,
     loading: <WidgetLoadingScreen organizationId={organizationId} />,
-    selection: <div>Selection</div>,
+    selection: <WidgetSelectionScreen />,
     voice: <div>Voice</div>,
     auth: <WidgetAuthScreen />,
     inbox: <div>Inbox</div>,
-    chat: <div>Chat</div>,
+    chat: <WidgetChatScreen />,
     contact: <div>Contact</div>,
   }
   return (
