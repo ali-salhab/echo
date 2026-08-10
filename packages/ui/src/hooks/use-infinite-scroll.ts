@@ -22,6 +22,7 @@ export const useInfiniteScroll = ({
 
   useEffect(() => {
     const topElement = topElementRef.current
+    console.log(topElement)
     if (!(topElement && observerEnabled)) {
       return
     }
@@ -29,6 +30,9 @@ export const useInfiniteScroll = ({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry?.isIntersecting) {
+          console.log(
+            "here the detected element appear in the view port and the loadmore function called"
+          )
           handleLoadMore()
         }
       },

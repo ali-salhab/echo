@@ -14,6 +14,7 @@ import { useMutation } from "convex/react"
 import { api } from "@workspace/backend/_generated/api"
 import { set } from "zod"
 import { fi } from "zod/locales"
+import WidgetFooter from "../components/widget-footer"
 
 const WidgetSelectionScreen = () => {
   const setConversationId = useSetAtom(conversationIdAtom)
@@ -80,6 +81,7 @@ const WidgetSelectionScreen = () => {
           <ChevronRightIcon className="" />
         </Button>
       </div>
+      <WidgetFooter />
     </>
   )
 }
