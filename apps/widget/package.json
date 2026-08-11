@@ -3,13 +3,9 @@
   "version": "0.0.1",
   "type": "module",
   "private": true,
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@workspace/backend": [
-        "../../backend/convex"
-      ]
-    }
+  "exports": {
+    "./components/*": "./components/*",
+    "./components/theme-provider": "./components/theme-provider.tsx"
   },
   "scripts": {
     "dev": "next dev -p 3001",

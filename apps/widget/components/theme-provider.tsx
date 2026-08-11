@@ -10,7 +10,7 @@ if (!convexUrl) {
 }
 const convex = new ConvexReactClient(convexUrl!)
 
-function ThemeProvider({
+function ConvexClientProvider({
   children,
   ...props
 }: React.ComponentProps<typeof NextThemesProvider>) {
@@ -21,4 +21,4 @@ function ThemeProvider({
   )
 }
 
-export { ThemeProvider }
+export { ConvexClientProvider }

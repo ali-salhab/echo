@@ -29,7 +29,7 @@ export const DashboardLayout = async ({
           >
             <AppSideBar />
 
-            <main className="flex min-h-screen flex-1 flex-col overflow-hidden bg-red-600">
+            <main className="overflow-hidde flex min-h-screen flex-1 flex-col">
               <DashboardHeader />
 
               {/* حاوية محتوى الصفحة (يمكن التمرير فيها وحدها دون أن يتحرك الزر) */}
