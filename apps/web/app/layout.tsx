@@ -4,29 +4,13 @@ import { cn } from "@workspace/ui/lib/utils"
 import { ClerkProvider } from "@clerk/nextjs"
 import { ConvexClientProvider } from "@/components/theme-provider"
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
-
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={cn(
-        "antialiased",
-        fontMono.variable,
-        "font-sans",
-        geist.variable
-      )}
-    >
+    <html lang="en">
       <body>
         <ClerkProvider>
           <ConvexClientProvider>{children}</ConvexClientProvider>

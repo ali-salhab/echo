@@ -27,17 +27,17 @@ export default function Page() {
     }
   }
   return (
-    <div className="flex min-h-screen w-full flex-1 flex-col bg-green-600 p-6">
-      <p>Apps.web</p>
-      <UserButton />
-      <Button
+    <div className="flex min-h-screen w-full flex-1 flex-col p-6">
+      {/* <p>Apps.web</p> */}
+      {/* <UserButton /> */}
+      {/* <Button
         onClick={() => {
           handleAddUser()
         }}
       >
         add user
-      </Button>
-      <OrganizationSwitcher />
+      </Button> */}
+      {/* <OrganizationSwitcher /> */}
     </div>
   )
 }
