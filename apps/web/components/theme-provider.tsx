@@ -1,10 +1,13 @@
 "use client"
 
 import * as React from "react"
-import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes"
-import { ConvexProvider, ConvexReactClient } from "convex/react"
+import { ThemeProvider as NextThemesProvider } from "next-themes"
+import { ConvexReactClient } from "convex/react"
+import { ConvexProviderWithClerk } from "convex/react-clerk"
+import { useAuth } from "@clerk/nextjs"
+
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL
-import { Provider } from "jotai"
+
 if (!convexUrl) {
   throw new Error("Missing CONVEX_URL inside .env.local")
 }
@@ -15,9 +18,9 @@ function ConvexClientProvider({
   ...props
 }: React.ComponentProps<typeof NextThemesProvider>) {
   return (
-    <ConvexProvider client={convex}>
-      <Provider>{children}</Provider>
-    </ConvexProvider>
+    <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
+      {children}
+    </ConvexProviderWithClerk>
   )
 }
 

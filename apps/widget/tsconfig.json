@@ -4,7 +4,8 @@
     "paths": {
       "@/*": ["./*"],
       "@workspace/ui/*": ["../../packages/ui/src/*"],
-      "@workspace/backend/*": ["../../packages/backend/convex/*"]
+      "@workspace/backend/*": ["../../packages/backend/convex/*"],
+      "@workspace/widget/*": ["../../apps/widget/*"]
     },
     "plugins": [
       {

@@ -3,5 +3,5 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode
 }) {
-  return <div className="bg-gray-500">{children}</div>
+  return <div className="">{children}</div>
 }
