@@ -1,9 +1,9 @@
 "use client "
-import { glass } from "@dicebear/collection"
 import { AvatarImage, Avatar } from "@workspace/ui/components/avatar"
 import { useMemo } from "react"
 import { cn } from "../lib/utils.js"
-import { Avatar as DicebearAvatarLib, Style } from "@dicebear/core"
+import { createAvatar } from "@dicebear/core"
+import { glass } from "@dicebear/collection"
 interface DicebearAvatarProps {
   seed: string
   size?: number
@@ -22,16 +22,13 @@ export const DicebearAvatar = ({
   badgeImageUrl,
 }: DicebearAvatarProps) => {
   const avatarSrc = useMemo(() => {
-    if (imageUrl) {
-      return imageUrl
-    }
-    const style = new Style(glass)
-    const avatar = new DicebearAvatarLib(style, {
-      seed: seed.toLocaleLowerCase().trim(),
+    if (imageUrl) return imageUrl
+
+    return createAvatar(glass, {
+      seed: [seed.toLowerCase().trim()],
       size,
-    })
-    return avatar.toDataUri()
-  }, [seed, size])
+    }).toDataUri()
+  }, [imageUrl, seed, size])
   const badgeSize = Math.round(size * 0.5)
   return (
     <div

@@ -1,6 +1,6 @@
 import { AuthGuard } from "@/modules/auth/ui/components/auth-guard"
 import { OrganizationGuard } from "@/modules/auth/ui/components/orgaanization-guard"
-
+import { Provider } from "jotai"
 import {
   SIDEBAR_COOKIE_NAME,
   SidebarProvider,
@@ -22,23 +22,25 @@ export const DashboardLayout = async ({
   return (
     <AuthGuard>
       <OrganizationGuard>
-        <div className="flex min-h-screen w-full">
-          <SidebarProvider
-            defaultOpen={defaultOpen}
-            className="flex min-h-screen w-full"
-          >
-            <AppSideBar />
+        <Provider>
+          <div className="flex min-h-screen w-full">
+            <SidebarProvider
+              defaultOpen={defaultOpen}
+              className="flex min-h-screen w-full"
+            >
+              <AppSideBar />
 
-            <main className="overflow-hidde flex min-h-screen flex-1 flex-col">
-              <DashboardHeader />
+              <main className="overflow-hidde flex min-h-screen flex-1 flex-col">
+                <DashboardHeader />
 
-              {/* حاوية محتوى الصفحة (يمكن التمرير فيها وحدها دون أن يتحرك الزر) */}
-              <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 lg:gap-6 lg:p-6">
-                {children}
-              </div>
-            </main>
-          </SidebarProvider>
-        </div>
+                {/* حاوية محتوى الصفحة (يمكن التمرير فيها وحدها دون أن يتحرك الزر) */}
+                <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 lg:gap-6 lg:p-6">
+                  {children}
+                </div>
+              </main>
+            </SidebarProvider>
+          </div>
+        </Provider>
       </OrganizationGuard>
     </AuthGuard>
   )

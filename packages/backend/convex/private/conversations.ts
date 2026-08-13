@@ -48,7 +48,61 @@ export const create = mutation({
     return conversationId
   },
 })
+export const getOne = query({
+  args: {
+    conversationId: v.id("conversations"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity()
 
+    if (identity === null) {
+      throw new ConvexError({
+        message: "User is not authenticated",
+        status: 401,
+        code: "UNAUTHORIZED",
+      })
+    }
+
+    const org = identity.o as { id: string }
+    const orgId = org?.id
+
+    if (!orgId) {
+      throw new ConvexError({
+        message: "User is not in organization",
+        status: 401,
+        code: "UNAUTHORIZED",
+      })
+    }
+    const conversation = await ctx.db.get(args.conversationId)
+    if (!conversation) {
+      throw new ConvexError({
+        message: "Conversation not found",
+        status: 404,
+        code: "NOT_FOUND",
+      })
+    }
+    if (conversation.organizationId !== orgId) {
+      throw new ConvexError({
+        message: "Conversation does not belong to your organization",
+        status: 403,
+        code: "FORBIDDEN",
+      })
+    }
+    const contactSession = await ctx.db.get(conversation.contactSessionId)
+    if (!contactSession) {
+      throw new ConvexError({
+        message: "Contact session not found",
+        status: 404,
+        code: "NOT_FOUND",
+      })
+    }
+
+    return {
+      ...conversation,
+      contactSession,
+    }
+  },
+})
 export const getMany = query({
   args: {
     paginationOpts: paginationOptsValidator,
