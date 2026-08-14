@@ -5,7 +5,51 @@ import { supportAgent } from "../system/ai/agents/supportAgents"
 import { paginationOptsValidator } from "convex/server"
 import { error } from "console"
 import { saveMessage } from "@convex-dev/agent"
+import { generateText } from "ai"
+import { google } from "@ai-sdk/google"
 
+export const enhanceresponse = action({
+  args: {
+    prompt: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity()
+
+    if (identity === null) {
+      throw new ConvexError({
+        message: "User is not authenticated",
+        status: 401,
+        code: "UNAUTHORIZED",
+      })
+    }
+
+    const org = identity.o as { id: string }
+    const orgId = org?.id
+
+    if (!orgId) {
+      throw new ConvexError({
+        message: "User is not in organization",
+        status: 401,
+        code: "UNAUTHORIZED",
+      })
+    }
+    const response = await generateText({
+      model: google.chat("gemini-3.5-flash-lite"),
+      messages: [
+        {
+          role: "system",
+          content:
+            "Enhance the operator message to be more professional and clear and helpful. while maintaining the original intent and key informations",
+        },
+        {
+          role: "user",
+          content: args.prompt,
+        },
+      ],
+    })
+    return response.text
+  },
+})
 // this create fuction will be called by the widget to create a new message in the conversation thread
 export const create = mutation({
   args: {

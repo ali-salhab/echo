@@ -1,9 +1,13 @@
 import { ConvexError, v } from "convex/values"
 import { action, query } from "../_generated/server"
-import { internal } from "../_generated/api"
+import { components, internal } from "../_generated/api"
 import { supportAgent } from "../system/ai/agents/supportAgents"
 import { paginationOptsValidator } from "convex/server"
 import { error } from "console"
+import { resolveConversation } from "../system/ai/tools/resolveConversation"
+import { escalateConversation } from "../system/ai/tools/escalateConversation"
+import { saveMessage } from "@convex-dev/agent"
+// import { saveMessage } from "@convex-dev/agent"
 
 // this create fuction will be called by the widget to create a new message in the conversation thread
 export const create = action({
@@ -50,16 +54,27 @@ export const create = action({
         code: "BAD_REQUEST",
       })
     }
+    const shouldTriggerAgent = conversation.status === "unresolved"
 
     // TODO IMPLEMENT SUBSCRIPTON CHECK
     // HERE WE WILL CALL THE AI AND RETURN WITH RESPONSE
-    await supportAgent.generateText(
-      ctx,
-      {
+    if (shouldTriggerAgent) {
+      await supportAgent.generateText(
+        ctx,
+        {
+          threadId: args.threadid,
+        },
+        {
+          prompt: args.prompt,
+          tools: { resolveConversation, escalateConversation },
+        }
+      )
+    } else {
+      await saveMessage(ctx, components.agent, {
         threadId: args.threadid,
-      },
-      { prompt: args.prompt }
-    )
+        prompt: args.prompt,
+      })
+    }
     console.log("here we call the ")
   },
 })

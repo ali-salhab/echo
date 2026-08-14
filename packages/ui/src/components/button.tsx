@@ -8,6 +8,10 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        tertiary:
+          "bg-gradient-to-b from-[#3fb62f] to-[#2e7d1f] text-white hover:from-[#3fb62f]/90 hover:to-[#2e7d1f]/90",
+        warning:
+          "bg-gradient-to-b from-[#fbbf24] to-[#b45309] text-white hover:from-[#fbbf24]/90 hover:to-[#b45309]/90",
         trasparent:
           "bg-transparent text-foreground hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50",
         default: "bg-primary text-primary-foreground hover:bg-primary/80",
