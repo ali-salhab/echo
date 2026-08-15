@@ -232,6 +232,7 @@ const ConversationIdView = ({
               </AIInputTools>
               <AIInputSubmit
                 status="ready"
+                size="icon-lg"
                 disabled={
                   !form.formState.isValid ||
                   conversation?.status === "resolved" ||
@@ -239,6 +240,9 @@ const ConversationIdView = ({
                   !form.getValues("message")
                 }
                 type="submit"
+                className={cn(
+                  "bg-primary p-2 text-primary-foreground hover:bg-primary/90"
+                )}
               >
                 Send
               </AIInputSubmit>
@@ -254,16 +258,16 @@ export default ConversationIdView
 export const ConversationIdViewLoading = () => {
   return (
     <div className="flex h-full flex-col bg-muted">
-      <header className="flex items-center justify-between border-b bg-background p-2.5">
+      {/* <header className="flex items-center justify-between border-b bg-background p-2.5">
         <Button disabled size="sm" variant="ghost">
           <MoreHorizontalIcon />
         </Button>
-      </header>
+      </header> */}
       <AIConversation className="max-h-[calc(100vh-180px)]">
         <AIConversationContent>
           {Array.from({ length: 8 }, (_, index) => {
             const isUser = index % 2 === 0
-            const widths = ["w-48", "w-60", "w-72"]
+            const widths = ["w-32", "w-60", "w-72"]
             const width = widths[index % widths.length]
             return (
               <div
@@ -273,10 +277,10 @@ export const ConversationIdViewLoading = () => {
                   isUser ? "is-user" : "is-assistant flex-row-reverse"
                 )}
               >
-                <Skeleton
-                  className={`h-9 ${width} rounded-lg bg-neutral-400`}
+                <div
+                  className={`h-9 ${width} animate-pulse rounded-lg bg-neutral-600`}
                 />
-                <Skeleton className={`size-8 rounded-lg bg-neutral-400`} />
+                <div className={`size-8 rounded-lg bg-neutral-400`} />
               </div>
             )
           })}
