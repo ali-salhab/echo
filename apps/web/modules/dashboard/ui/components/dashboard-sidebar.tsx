@@ -35,7 +35,7 @@ const customerSupportItems = [
   },
   {
     title: "Knowledge Base",
-    url: "/knowledge-base",
+    url: "/files",
     icon: LibraryBigIcon,
   },
 ]
