@@ -103,6 +103,11 @@ export const create = mutation({
         code: "BAD_REQUEST",
       })
     }
+    if (conversation.status === "unresolved") {
+      await ctx.db.patch(args.conversationId, {
+        status: "escalated",
+      })
+    }
     await saveMessage(ctx, components.agent, {
       threadId: conversation.threadId,
       agentName: identity.familyName,
