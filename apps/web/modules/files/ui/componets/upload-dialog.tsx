@@ -22,7 +22,7 @@ import { previousDay } from "date-fns"
 interface UploadDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onFileUploaded?: () => void
+  onFileUploaded?: (a: string) => void
 }
 
 export const UploadDialoge = ({
@@ -41,6 +41,7 @@ export const UploadDialoge = ({
     const file = acceptedFiles[0]
     if (file) {
       setUploadedFiles([file])
+      console.log("file dropped", file.name)
       if (!uploadForm.filename) {
         setUploadForm((prev) => ({
           ...prev,
@@ -63,7 +64,7 @@ export const UploadDialoge = ({
         mimeType: blob.type || "text/plain",
         category: uploadForm.category,
       })
-      onFileUploaded?.()
+      onFileUploaded?.(filename)
       handleCancel()
     } catch (error) {
     } finally {
@@ -95,7 +96,7 @@ export const UploadDialoge = ({
               type="text"
               value={uploadForm.category}
               placeholder="e.g.,Documetation , Support , Product"
-              className="w-full"
+              // className="w-full"
               id="category"
               onChange={(e) => {
                 return setUploadForm((prev) => ({
@@ -110,7 +111,7 @@ export const UploadDialoge = ({
             <span className="text-xs text-muted-foreground">(optional)</span>
             <Input
               type="text"
-              value={uploadForm.category}
+              value={uploadForm.filename}
               placeholder="verride the default file name "
               className="w-full"
               id="filename"

@@ -9,7 +9,9 @@ export const AuthGuard = ({ children }: { children: React.ReactNode }) => {
     <>
       <AuthLoading>
         <AuthLayout>
-          <div className="flex h-12 w-12 animate-spin rounded-full border-4 border-gray-200 border-t-black"></div>{" "}
+          <div className="flex min-h-screen items-center justify-center">
+            <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-900 border-t-transparent" />
+          </div>{" "}
         </AuthLayout>
       </AuthLoading>
       <Authenticated>

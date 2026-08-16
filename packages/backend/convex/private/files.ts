@@ -56,10 +56,18 @@ export const addFile = action({
         code: "UNAUTHORIZED",
       })
     }
+
+    console.log("orgId", orgId)
+    console.log(
+      "----------------here the user is authenticated and belong to organizatiosn"
+    )
     const { fileName, bytes, category } = args
     const mimeType = args.mimeType || guessMimeType(fileName, bytes)
+    console.log("mimeType", mimeType)
     const blob = new Blob([bytes], { type: mimeType })
     const storageId = await ctx.storage.store(blob)
+    console.log("storageId", storageId)
+    console.log("here we upload the file to convex storage---------------")
     const text = await extractTextContent(ctx, {
       storageId,
       fileName,
@@ -235,6 +243,7 @@ const convertEntryToPublicFile = async (
   entry: Entry
 ): Promise<PublicFile> => {
   const metadata = entry.metadata as EntryMetadata | undefined
+  console.log("meta data --------------->", metadata)
   const storageId = metadata?.storageId
   let fileSize = "unknown"
   if (storageId) {
@@ -247,8 +256,9 @@ const convertEntryToPublicFile = async (
       console.error("Error fetching storage metadata:", error)
     }
   }
-  const filename = entry.key || "unknown"
-  const extension = filename.split(".").pop()?.toLocaleLowerCase() || "txt"
+  const filename = metadata?.fileName.split(".")[0] || "unknown"
+  const extension =
+    metadata?.fileName.split(".").pop()?.toLocaleLowerCase() || "txt"
   let status: "ready" | "processing" | "error" = "error"
   if (entry.status === "ready") {
     status = "ready"
