@@ -32,6 +32,8 @@ export const extractTextContent = async (
 ): Promise<string> => {
   const { fileName, mimeType, storageId, bytes } = args
   const url = await ctx.storage.getUrl(storageId)
+  console.log("url", url)
+  console.log("here we get the url of the stored file in convex storage ")
   assert(url, "failed to get storage url")
   if (
     SUPPORTED_IMAGE_TYPES.some((type) => {

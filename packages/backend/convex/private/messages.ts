@@ -7,6 +7,7 @@ import { error } from "console"
 import { saveMessage } from "@convex-dev/agent"
 import { generateText } from "ai"
 import { google } from "@ai-sdk/google"
+import { OPERATOR_MESSAGE_ENHANCEMENT_PROMPT } from "../system/ai/constants"
 
 export const enhanceresponse = action({
   args: {
@@ -38,8 +39,7 @@ export const enhanceresponse = action({
       messages: [
         {
           role: "system",
-          content:
-            "Enhance the operator message to be more professional and clear and helpful. while maintaining the original intent and key informations",
+          content: OPERATOR_MESSAGE_ENHANCEMENT_PROMPT,
         },
         {
           role: "user",

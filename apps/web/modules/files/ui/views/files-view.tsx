@@ -54,6 +54,11 @@ const FilesView = () => {
   const handleFileDeleted = () => {
     setSelectedFile(null)
   }
+  const onFileUploaded = (a: string) => {
+    console.log(a)
+  }
+  console.log("i-------------------------------r-----------------------e")
+  console.log("files", files)
   return (
     <>
       <DeleteDialog
@@ -63,11 +68,11 @@ const FilesView = () => {
         onOpenChange={setDeleteDialogueOpen}
       />
       <UploadDialoge
+        onFileUploaded={onFileUploaded}
         open={uploadDiallogueOpen}
         onOpenChange={setUploadDialogueOpen}
       />
-      <div className="flex min-h-screen min-w-screen flex-col bg-muted p-2">
-        <div className="mx-auto w-full max-w-3xl bg-green-400">ali</div>
+      <div className="min-h-full w-full min-w-0 bg-muted p-2">
         <div>
           <h1 className="text-2xl md:text-4xl">Knowledge Base</h1>
           <p className="text-muted-foreground">
@@ -82,7 +87,7 @@ const FilesView = () => {
                 }}
               >
                 <PlusIcon />
-                Add New
+                Add New File
               </Button>
             </div>
             <Table>
@@ -137,15 +142,13 @@ const FilesView = () => {
                       </TableCell>
                       <TableCell className="px-6 py-4 font-medium">
                         <DropdownMenu>
-                          {/* @ts-expect-error - asChild is supported by Radix runtime */}
-                          <DropdownMenuTrigger asChild>
-                            <Button
-                              className="size-8 p-0"
-                              variant="ghost"
-                              size="sm"
-                            >
-                              <MoreHorizontalIcon className="h-4 w-4" />
-                            </Button>
+                          <DropdownMenuTrigger
+                            className="size-8 p-0 hover:bg-muted"
+                            onClick={() => {
+                              console.log("Menu trigger clicked")
+                            }}
+                          >
+                            <MoreHorizontalIcon className="size-4" />
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="w-32">
                             <DropdownMenuItem
@@ -157,21 +160,13 @@ const FilesView = () => {
                               <TrashIcon />
                               Delete
                             </DropdownMenuItem>
-                            <DropdownMenuItem>Delete</DropdownMenuItem>
+                            {/* <DropdownMenuItem>Delete</DropdownMenuItem> */}
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>
                     </TableRow>
                   ))
                 })()}
-
-                {/* <InfiniteScroolTrigger
-                ref={topElementRef}
-             
-                canLoadMore={canLoadMore}
-                isExhausted={isExhausted}
-                onLoadMore={handleLoadMore}
-              /> */}
               </TableBody>
             </Table>
             {!isLoadingFirstPage && files.results.length > 0 && (

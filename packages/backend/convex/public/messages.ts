@@ -2,11 +2,13 @@ import { ConvexError, v } from "convex/values"
 import { action, query } from "../_generated/server"
 import { components, internal } from "../_generated/api"
 import { supportAgent } from "../system/ai/agents/supportAgents"
+// import { search } from "../system/ai/tools/search"
 import { paginationOptsValidator } from "convex/server"
 import { error } from "console"
 import { resolveConversation } from "../system/ai/tools/resolveConversation"
 import { escalateConversation } from "../system/ai/tools/escalateConversation"
 import { saveMessage } from "@convex-dev/agent"
+import { search } from "../system/ai/tools/search"
 // import { saveMessage } from "@convex-dev/agent"
 
 // this create fuction will be called by the widget to create a new message in the conversation thread
@@ -66,7 +68,11 @@ export const create = action({
         },
         {
           prompt: args.prompt,
-          tools: { resolveConversation, escalateConversation },
+          tools: {
+            resolveConversationTool: resolveConversation,
+            escalateConversationTool: escalateConversation,
+            searchTool: search,
+          },
         }
       )
     } else {

@@ -11,12 +11,7 @@ export const OrganizationGuard = ({
   const { organization } = useOrganization()
   console.log(organization)
   if (!organization) {
-    return (
-      <div>
-        <h1>You must belong to an organization to access this page.</h1>
-        <OrgSelectView />
-      </div>
-    )
+    return <OrgSelectView />
   }
 
   return <div>{children}</div>
