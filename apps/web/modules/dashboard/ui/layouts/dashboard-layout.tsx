@@ -30,7 +30,6 @@ export const DashboardLayout = async ({
               <main className="flex min-h-screen min-w-0 flex-1 flex-col overflow-hidden">
                 <DashboardHeader />
 
-                {/* حاوية محتوى الصفحة (يمكن التمرير فيها وحدها دون أن يتحرك الزر) */}
                 <div className="flex w-full min-w-0 flex-1 flex-col gap-4 overflow-y-auto p-4 lg:gap-6 lg:p-6">
                   {children}
                 </div>
