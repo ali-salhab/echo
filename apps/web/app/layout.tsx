@@ -3,6 +3,7 @@ import "@workspace/ui/globals.css"
 import { cn } from "@workspace/ui/lib/utils"
 import { ClerkProvider } from "@clerk/nextjs"
 import { ConvexClientProvider } from "@/components/theme-provider"
+import { Toaster } from "react-hot-toast"
 
 export default function RootLayout({
   children,
@@ -13,6 +14,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ClerkProvider>
+          <Toaster />
           <ConvexClientProvider>{children}</ConvexClientProvider>
         </ClerkProvider>
       </body>
