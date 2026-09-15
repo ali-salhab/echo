@@ -22,7 +22,7 @@ import {
   FormControl,
   FormMessage,
 } from "@workspace/ui/components/form"
-import { z } from "zod"
+import { set, z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { upsertSecret } from "@workspace/backend/lib/secrets"
@@ -61,7 +61,7 @@ const VapiPluginForm = ({
   setOpen: (value: boolean) => void
 }) => {
   const upsertSecret = useMutation(api.private.secrets.upsert)
-  const fomr = useForm({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       publicApiKey: "",
@@ -69,6 +69,7 @@ const VapiPluginForm = ({
     },
   })
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log(values, "clicked")
     try {
       await upsertSecret({
         service: "vapi",
@@ -77,6 +78,8 @@ const VapiPluginForm = ({
           privateApiKey: values.privateApiKey,
         },
       })
+      setOpen(false)
+      toast.success("Secrets updated successfully")
     } catch (error) {
       toast.error("Failed to update secrets")
     }
@@ -91,13 +94,13 @@ const VapiPluginForm = ({
             Enter your Vapi API keys to connect the plugin.
           </DialogDescription>
         </DialogHeader>
-        <Form {...fomr}>
+        <Form {...form}>
           <form
             className="flex flex-col gap-y-4"
-            onSubmit={fomr.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(onSubmit)}
           >
             <FormField
-              control={fomr.control}
+              control={form.control}
               name="publicApiKey"
               render={({ field }) => (
                 <FormItem>
@@ -110,7 +113,7 @@ const VapiPluginForm = ({
               )}
             />
             <FormField
-              control={fomr.control}
+              control={form.control}
               name="privateApiKey"
               render={({ field }) => (
                 <FormItem>
@@ -122,28 +125,32 @@ const VapiPluginForm = ({
                 </FormItem>
               )}
             />
+            <DialogFooter>
+              <button type="submit" disabled={form.formState.isSubmitting}>
+                {form.formState.isSubmitting ? "connecting..." : "connect"}
+              </button>
+            </DialogFooter>
           </form>
-
-          <DialogFooter>
-            <button type="submit" disabled={fomr.formState.isSubmitting}>
-              {fomr.formState.isSubmitting ? "connecting..." : "connect"}
-            </button>
-          </DialogFooter>
         </Form>
       </DialogContent>
     </Dialog>
   )
 }
 
-const handleSubmit = () => {
-  if (!VapiPlugin) {
-    return
-  }
-}
 const VapiView = () => {
-  const vapiPlugin = useQuery(api.private.plugins.getOne, { service: "vapi" })
+  const vapiPlugin = useQuery(api.private.plugins.getOne, {
+    service: "vapi",
+  })
   const [connectedopen, setConnectedOpen] = useState(false)
-
+  const [removeOpen, setRemoveOpen] = useState(false)
+  const handleSubmit = () => {
+    console.log(vapiPlugin, "handleSubmit called")
+    if (vapiPlugin) {
+      setRemoveOpen(true)
+    } else {
+      setConnectedOpen(true)
+    }
+  }
   return (
     <>
       <VapiPluginForm open={connectedopen} setOpen={setConnectedOpen} />
@@ -163,7 +170,7 @@ const VapiView = () => {
               serviceImage="./logo.svg"
               features={vapiFeatures}
               isDisabled={vapiPlugin === undefined}
-              onSubmit={() => {}}
+              onSubmit={handleSubmit}
             />
           )}
         </div>
