@@ -34,7 +34,7 @@ export const PluginCard = ({
             height={100}
           />
         </div>
-        <div className="felx flex-row items-center gap-1">
+        <div className="flex flex-col items-center gap-1">
           <ArrowLeftRightIcon />
           <div className="flex flex-col items-center">
             <Image
@@ -71,7 +71,7 @@ export const PluginCard = ({
       </div>
       <div className="text-center">
         <Button onClick={onSubmit} disabled={isDisabled} className="size-full">
-          Connect
+          Connect to {serviceName}
           <PlugIcon className="ml-2 size-4" />
         </Button>
       </div>

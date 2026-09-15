@@ -30,6 +30,7 @@ export const getOne = query({
       .withIndex("by_organization_id_and_service", (q) => {
         return q.eq("organizationId", orgId).eq("service", args.service)
       })
+      .first()
   },
 })
 

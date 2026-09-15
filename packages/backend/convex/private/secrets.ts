@@ -8,6 +8,7 @@ export const upsert = mutation({
     value: v.any(),
   },
   handler: async (ctx, args) => {
+    console.log(args, "upsert called")
     const identity = await ctx.auth.getUserIdentity()
 
     if (identity === null) {
@@ -35,6 +36,7 @@ export const upsert = mutation({
       value: args.value,
       organizationId: orgId,
     })
+
     // Implement the logic to upsert the secret for the given service
   },
 })
