@@ -10,7 +10,7 @@ export const upsert = mutation({
   handler: async (ctx, args) => {
     console.log(args, "upsert called")
     const identity = await ctx.auth.getUserIdentity()
-
+    console.log(identity, "identity")
     if (identity === null) {
       throw new ConvexError({
         message: "User is not authenticated",

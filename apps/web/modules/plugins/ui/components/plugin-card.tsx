@@ -25,31 +25,31 @@ export const PluginCard = ({
   return (
     <div className="h-fit w-full rounded-lg border bg-background p-8">
       <div className="mb-6 flex items-center justify-center gap-6">
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center justify-center">
           <Image
             className="rounded object-contain"
             src={serviceImage}
             alt={serviceName}
-            width={100}
-            height={100}
+            width={40}
+            height={40}
           />
         </div>
-        <div className="flex flex-col items-center gap-1">
+        <div className="flex items-center gap-1">
           <ArrowLeftRightIcon />
-          <div className="flex flex-col items-center">
-            <Image
-              className="rounded object-contain"
-              src={"/logo.png"}
-              alt={"platform"}
-              width={40}
-              height={40}
-            />
-          </div>
+        </div>
+        <div className="flex flex-col items-center">
+          <Image
+            className="rounded object-contain"
+            src={"/logo.png"}
+            alt={"platform"}
+            width={40}
+            height={40}
+          />
         </div>
       </div>
       <div className="mb-6 text-center">
         <p className="text-lg">
-          <span>Conntect your {serviceName} Account</span>
+          <span>Connect your {serviceName} Account</span>
         </p>
       </div>
       <div className="mb-6">
@@ -72,7 +72,7 @@ export const PluginCard = ({
       <div className="text-center">
         <Button onClick={onSubmit} disabled={isDisabled} className="size-full">
           Connect to {serviceName}
-          <PlugIcon className="ml-2 size-4" />
+          <PlugIcon className="m-2 ml-2 size-4" />
         </Button>
       </div>
     </div>
