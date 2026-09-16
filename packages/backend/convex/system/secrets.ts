@@ -10,6 +10,12 @@ export const upsert = internalAction({
     value: v.any(),
   },
   handler: async (ctx, args) => {
+    console.log(
+      "Upserting secret for organization:",
+      args.organizationId,
+      "service:",
+      args.service
+    )
     const secretName = `tenant/${args.organizationId}/${args.service}`
     await upsertSecret(secretName, args.value)
 

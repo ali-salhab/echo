@@ -11,6 +11,7 @@ import {
 export function createSecretManagerCleint(): SecretsManagerClient {
   const accessKeyId = process.env.AWS_ACCESS_KEY_ID
   const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
+
   console.log(accessKeyId, secretAccessKey, "AWS credentials loaded")
   if (!accessKeyId || !secretAccessKey) {
     throw new Error("AWS credentials are not configured")
@@ -35,12 +36,15 @@ export async function upsertSecret(
   secretValue: Record<string, unknown>
 ): Promise<void> {
   const client = createSecretManagerCleint()
+  console.log("Upserting secret with name:", secretName)
   try {
     const command = new CreateSecretCommand({
       Name: secretName,
       SecretString: JSON.stringify(secretValue),
     })
+
     await client.send(command)
+    console.log("Secret created successfully with name:", secretName)
   } catch (error) {
     if (error instanceof ResourceExistsException) {
       const command = new PutSecretValueCommand({
