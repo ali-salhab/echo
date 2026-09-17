@@ -72,7 +72,7 @@ export const getPhoneNumbers = action({
 
 export const getAssistants = action({
   args: {},
-  handler: async (ctx, args) => {
+  handler: async (ctx, args): Promise<Vapi.Assistant[]> => {
     const identity = await ctx.auth.getUserIdentity()
     console.log(identity, "identity")
     if (identity === null) {
