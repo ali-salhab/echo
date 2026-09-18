@@ -6,18 +6,18 @@ type PhoneNumbers = typeof api.private.vapi.getPhoneNumbers._returnType
 type Assistants = typeof api.private.vapi.getAssistants._returnType
 export const useVapiPhoneNumbers = (): {
   data: PhoneNumbers
-  loading: boolean
+  isLoading: boolean
   error: Error | null
 } => {
   const [data, setData] = useState<PhoneNumbers>([])
-  const [loading, setLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
   const getPhoneNumbers = useAction(api.private.vapi.getPhoneNumbers)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true)
+        setIsLoading(true)
         const result = await getPhoneNumbers()
         setData(result)
         setError(null)
@@ -25,29 +25,29 @@ export const useVapiPhoneNumbers = (): {
         setError(err as Error)
         toast.error((err as Error).message)
       } finally {
-        setLoading(false)
+        setIsLoading(false)
       }
     }
     fetchData()
   }, [getPhoneNumbers])
 
-  return { data, loading, error }
+  return { data, isLoading: isLoading, error }
 }
 
 export const useVapiAssistants = (): {
   data: Assistants
-  loading: boolean
+  isLoading: boolean
   error: Error | null
 } => {
   const [data, setData] = useState<Assistants>([])
-  const [loading, setLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
   const getAssistants = useAction(api.private.vapi.getAssistants)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true)
+        setIsLoading(true)
         const result = await getAssistants()
         setData(result)
         setError(null)
@@ -55,11 +55,11 @@ export const useVapiAssistants = (): {
         setError(err as Error)
         toast.error((err as Error).message)
       } finally {
-        setLoading(false)
+        setIsLoading(false)
       }
     }
     fetchData()
   }, [getAssistants])
 
-  return { data, loading, error }
+  return { data, isLoading, error }
 }
