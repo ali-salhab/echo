@@ -1,7 +1,8 @@
+import { CustomizationView } from "@/modules/customization/ui/view/customization-view"
 import React from "react"
 
 const Customization = () => {
-  return <div>Customization </div>
+  return <CustomizationView />
 }
 
 export default Customization
