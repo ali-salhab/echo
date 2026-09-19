@@ -1,14 +1,21 @@
 import React, { useState } from "react"
 import { WidgetHeader } from "../components/widget-header"
 import { Button } from "@workspace/ui/components/button"
-import { ChevronRightIcon, MessageSquareIcon } from "lucide-react"
+import {
+  ChevronRightIcon,
+  MessageSquareIcon,
+  Mic2Icon,
+  PhoneIcon,
+} from "lucide-react"
 import { useAtomValue, useSetAtom } from "jotai"
 import {
   contactSessionIdAtomFamilly,
   conversationIdAtom,
   errorMessageAtom,
+  hasVapiSecretsAtom,
   organizationIdAtom,
   screenAtom,
+  widgetSettingsAtom,
 } from "@/modules/widget/atoms/widget-atoms"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/backend/_generated/api"
@@ -19,6 +26,8 @@ import WidgetFooter from "../components/widget-footer"
 const WidgetSelectionScreen = () => {
   const setConversationId = useSetAtom(conversationIdAtom)
   const setScreen = useSetAtom(screenAtom)
+  const widgetSettings = useAtomValue(widgetSettingsAtom)
+  const hasVapiSecrets = useAtomValue(hasVapiSecretsAtom)
   const organizationId = useAtomValue(organizationIdAtom)
   const setErrorMessage = useSetAtom(errorMessageAtom)
   const contactSessionId = useAtomValue(
@@ -66,7 +75,7 @@ const WidgetSelectionScreen = () => {
         </div>
       </WidgetHeader>
 
-      <div className="flex flex-1 flex-col p-4">
+      <div className="flex flex-1 flex-col gap-2 p-4">
         <p className="mb-4 text-lg font-extrabold">Selection Screen</p>
         <Button
           disabled={isPending}
@@ -80,7 +89,40 @@ const WidgetSelectionScreen = () => {
           </div>
           <ChevronRightIcon className="" />
         </Button>
+        {hasVapiSecrets && widgetSettings?.vapiSettings.assistantId && (
+          <Button
+            disabled={isPending}
+            className="h-16 w-full justify-between"
+            variant="outline"
+            onClick={() => {
+              setScreen("voice")
+            }}
+          >
+            <div className="flex items-center gap-x-2">
+              <Mic2Icon className="size-4" />
+              <span>start voice call</span>
+            </div>
+            <ChevronRightIcon className="" />
+          </Button>
+        )}
+        {hasVapiSecrets && widgetSettings?.vapiSettings.phoneNumber && (
+          <Button
+            disabled={isPending}
+            className="h-16 w-full justify-between"
+            variant="outline"
+            onClick={() => {
+              setScreen("contact")
+            }}
+          >
+            <div className="flex items-center gap-x-2">
+              <PhoneIcon className="size-4" />
+              <span>call us</span>
+            </div>
+            <ChevronRightIcon className="" />
+          </Button>
+        )}
       </div>
+
       <WidgetFooter />
     </>
   )
