@@ -58,6 +58,12 @@ export const create = mutation({
         code: "UNAUTHORIZED",
       })
     }
+    const widgerSettings = await ctx.db
+      .query("widgetSettings")
+      .withIndex("by_organization_id", (q) => {
+        return q.eq("organizationId", args.organizationId)
+      })
+      .unique()
     // TODO: replace once functionality for thread creating is present
     const { threadId } = await supportAgent.createThread(ctx, {
       userId: args.organizationId,
@@ -67,8 +73,7 @@ export const create = mutation({
       threadId,
       message: {
         role: "assistant",
-        // TODO: latery modify to widget settings initial message
-        content: "hello how are you today",
+        content: widgerSettings?.greetMessage ?? "Hello how are you today",
       },
     })
     const conversationId = await ctx.db.insert("conversations", {

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import z from "zod"
 import { useForm } from "react-hook-form"
 import { WidgetHeader } from "../components/widget-header"
@@ -6,11 +6,16 @@ import { Button } from "@workspace/ui/components/button"
 import { ArrowLeftIcon, MenuIcon, MessagesSquare } from "lucide-react"
 import { useAtomValue, useSetAtom } from "jotai"
 import {
+  AISuggestions,
+  AISuggestion,
+} from "@workspace/ui/components/ui/suggestion"
+import {
   contactSessionIdAtomFamilly,
   conversationIdAtom,
   organizationIdAtom,
   screenAtom,
 } from "@/modules/widget/atoms/widget-atoms"
+import { widgetSettingsAtom } from "@/modules/widget/atoms/widget-atoms"
 import { useThreadMessages, toUIMessages } from "@convex-dev/agent/react"
 import { useAction, useMutation, useQuery } from "convex/react"
 import { api } from "@workspace/backend/_generated/api"
@@ -30,10 +35,7 @@ import {
   AIInputTools,
 } from "@workspace/ui/components/ui/input"
 import { AIResponse } from "@workspace/ui/components/ui/response"
-import {
-  AISuggestions,
-  AISuggestion,
-} from "@workspace/ui/components/ui/suggestion"
+
 import type { Id } from "@workspace/backend/_generated/dataModel"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
@@ -51,6 +53,7 @@ const WidgetChatScreen = () => {
   const [prompt, setPrompt] = useState<string>("")
   const setScreen = useSetAtom(screenAtom)
   const setConversationId = useSetAtom(conversationIdAtom)
+  const widgetSettings = useAtomValue(widgetSettingsAtom)
   const organizationId = useAtomValue(organizationIdAtom)
   const contactSessionId = useAtomValue(
     contactSessionIdAtomFamilly(organizationId || "")
@@ -99,9 +102,20 @@ const WidgetChatScreen = () => {
   })
   const onBackClick = () => {
     setScreen("selection")
-    // setConversationId(null)
+    setConversationId(null)
   }
 
+  const suggestions = useMemo(() => {
+    if (!widgetSettings) {
+      return []
+    }
+
+    return Object.keys(widgetSettings.defaultSuggestions).map((key) => {
+      return widgetSettings.defaultSuggestions[
+        key as keyof typeof widgetSettings.defaultSuggestions
+      ]
+    })
+  }, [widgetSettings])
   const createMessage = useAction(api.public.messages.create)
   const onSubmit = async (value: z.infer<typeof formSchema>) => {
     if (!conversation || !contactSessionId) {
@@ -168,7 +182,30 @@ const WidgetChatScreen = () => {
           })}
         </AIConversationContent>
       </AIConversation>
-      {/* Add suggestions */}
+
+      {toUIMessages(messages.results ?? [])?.length === 1 && (
+        <AISuggestions className="flex w-full flex-col items-end p-2">
+          {suggestions.map((suggestion, index) => {
+            if (!suggestion) {
+              return null
+            }
+            return (
+              <AISuggestion
+                key={index}
+                onClick={() => {
+                  form.setValue("message", suggestion, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                    shouldTouch: true,
+                  })
+                  form.handleSubmit(onSubmit)()
+                }}
+                suggestion={suggestion}
+              />
+            )
+          })}
+        </AISuggestions>
+      )}
       {/* form */}
       <Form {...form}>
         <AIInput

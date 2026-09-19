@@ -10,9 +10,10 @@ import {
   loadingMessageAtom,
   organizationIdAtom,
   screenAtom,
+  widgetSettingsAtom,
 } from "../../widget/atoms/widget-atoms"
 import { WidgetHeader } from "../components/widget-header"
-import { useAction, useMutation } from "convex/react"
+import { useAction, useMutation, useQuery } from "convex/react"
 import { set } from "zod"
 
 type InitStep = "org" | "session" | "setting" | "vapi" | "done"
@@ -27,6 +28,7 @@ const WidgetLoadingScreen = ({
   )
   const setOrganizationId = useSetAtom(organizationIdAtom)
   const setScreen = useSetAtom(screenAtom)
+  const setWidgetSettings = useSetAtom(widgetSettingsAtom)
   const loadingMessage = useAtomValue(loadingMessageAtom)
   const setLoadingMessage = useSetAtom(loadingMessageAtom)
   const [step, setStep] = useState<InitStep>("org")
@@ -81,7 +83,7 @@ const WidgetLoadingScreen = ({
 
     if (!contactSessionId) {
       setSessionValid(false)
-      setStep("done")
+      setStep("setting")
       return
     }
     setLoadingMessage("validating swssion..")
@@ -90,13 +92,32 @@ const WidgetLoadingScreen = ({
     })
       .then((result) => {
         setSessionValid(result.valid)
-        setStep("done")
+        setStep("setting")
       })
       .catch(() => {
         setSessionValid(false)
-        setStep("done")
+        setStep("setting")
       })
   }, [step, contactSessionId, setLoadingMessage, validateContactSession])
+  // step 3 : laod wdget settings
+  const widgetSettings = useQuery(
+    api.public.widgetSettings.getByOrganizationId,
+    organizationId
+      ? {
+          organizationId: organizationId,
+        }
+      : "skip"
+  )
+  useEffect(() => {
+    if (step !== "setting") {
+      return
+    }
+    setLoadingMessage("loading widget settings...")
+    if (widgetSettings !== undefined && organizationId) {
+      setWidgetSettings(widgetSettings)
+      setStep("done")
+    }
+  }, [widgetSettings, step, setWidgetSettings, setLoadingMessage])
   useEffect(() => {
     if (step !== "done") {
       return
