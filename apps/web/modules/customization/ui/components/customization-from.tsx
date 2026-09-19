@@ -25,7 +25,7 @@ import type { Doc } from "@workspace/backend/_generated/dataModel"
 import { useMutation } from "convex/react"
 import { api } from "@workspace/backend/_generated/api"
 import { VapiFormFields } from "./vapi-form-fields"
-import type { widgetSettingsSchema } from "../../schemas"
+import { widgetSettingsSchema } from "../../schemas"
 
 type WidgetSetting = Doc<"widgetSettings">
 interface CustomizationFormProps {
