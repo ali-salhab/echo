@@ -89,6 +89,17 @@ const WidgetSelectionScreen = () => {
           </div>
           <ChevronRightIcon className="" />
         </Button>
+        <Button
+          disabled={isPending}
+          className=""
+          variant="outline"
+          onClick={() => {
+            console.log("Button clicked")
+            console.log(widgetSettings)
+          }}
+        >
+          click
+        </Button>
         {hasVapiSecrets && widgetSettings?.vapiSettings.assistantId && (
           <Button
             disabled={isPending}
