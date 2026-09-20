@@ -11,7 +11,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ConvexClientProvider>{children}</ConvexClientProvider>
+        <ConvexClientProvider>
+          <div className="h-screen w-screen">{children}</div>
+        </ConvexClientProvider>
       </body>
     </html>
   )
