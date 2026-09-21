@@ -16,7 +16,7 @@ import type { Id } from "@workspace/backend/_generated/dataModel"
 import { Button } from "@workspace/ui/components/button"
 import { DicebearAvatar } from "@workspace/ui/components/dicebear-avatar"
 import { useQuery } from "convex/react"
-import { MailIcon } from "lucide-react"
+import { GlobeIcon, MailIcon, MonitorIcon } from "lucide-react"
 import Link from "next/dist/client/link"
 import { useParams } from "next/navigation"
 import React, { useMemo } from "react"
@@ -47,7 +47,6 @@ export const ContactPanel = () => {
   const countryInfo = useMemo(() => {
     return getCountryFromTimezone(contactSession?.metadata?.timezone)
   }, [contactSession?.metadata?.timezone])
-  if (contactSession === undefined || contactSession === null) return null
   const parseUserAgent = useMemo(() => {
     return (userAgent?: string) => {
       if (!userAgent)
@@ -73,6 +72,82 @@ export const ContactPanel = () => {
     () => parseUserAgent(contactSession?.metadata?.userAgent),
     [parseUserAgent, contactSession?.metadata?.userAgent]
   )
+
+  const accordionSections = useMemo<InfoSection[]>(() => {
+    if (!contactSession?.metadata) return []
+    return [
+      {
+        id: "device-info",
+        title: "Device Information",
+        icon: MonitorIcon,
+        items: [
+          {
+            label: "Browser",
+            value:
+              userAgentInfo.browser +
+              (userAgentInfo.browserVersion
+                ? ` (${userAgentInfo.browserVersion})`
+                : ""),
+          },
+          {
+            label: "OS",
+            value:
+              userAgentInfo.os +
+              (userAgentInfo.osVersion ? ` (${userAgentInfo.osVersion})` : ""),
+          },
+          {
+            label: "Device",
+            className: "capitalize",
+            value:
+              userAgentInfo.device +
+              (userAgentInfo.deviceModel
+                ? ` (${userAgentInfo.deviceModel})`
+                : ""),
+          },
+          {
+            label: "screen",
+            value: contactSession.metadata.screenResolution,
+          },
+          {
+            label: "view port",
+            value: contactSession.metadata.viewportSize,
+          },
+          {
+            label: "Cookies",
+            value: contactSession.metadata.cookieEnabled
+              ? "Enabled"
+              : "Disabled",
+          },
+        ],
+      },
+      {
+        id: "location-info",
+        title: "Location Information",
+        icon: GlobeIcon,
+        items: [
+          ...(countryInfo
+            ? [
+                {
+                  label: "Country",
+                  value: countryInfo?.name ?? "Unknown",
+                },
+              ]
+            : []),
+
+          {
+            label: "language",
+            value: contactSession.metadata.language ?? "Unknown",
+          },
+          {
+            label: "UTC offset",
+            value: contactSession.metadata.timezoneOffset ?? "Unknown",
+          },
+        ],
+      },
+    ]
+  }, [userAgentInfo, contactSession, countryInfo])
+  if (contactSession === undefined || contactSession === null) return null
+
   return (
     <div className="flex h-full w-full flex-col bg-background text-foreground">
       Contact panel
@@ -103,6 +178,51 @@ export const ContactPanel = () => {
             send email
           </Link>
         </Button>
+      </div>
+      <div>
+        {contactSession.metadata && (
+          <Accordion
+            className={"w-full rounded-none border-y"}
+            // collapsible
+            // type="single"
+          >
+            {accordionSections.map((section) => (
+              <AccordionItem
+                className={
+                  "rounded-none outline-none has-focus-visible:z-10 has-focus-visible:border-ring has-focus-visible:ring-[3px] has-focus-visible:ring-ring/50"
+                }
+                key={section.id}
+                value={section.id}
+              >
+                <AccordionTrigger
+                  className={
+                    "flex w-full flex-1 items-start justify-between bg-accent px-5 py-4 text-left text-sm font-medium transition-all outline-none hover:no-underline disabled:pointer-events-none disabled:opacity-50"
+                  }
+                >
+                  <div className="flex items-center gap-4">
+                    {section.icon && <section.icon className="size-4" />}
+                    <span>{section.title}</span>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="px-5 py-4">
+                  <div className="space-y-2 text-sm">
+                    {section.items.map((item) => (
+                      <div
+                        key={`${section.id}-${item.label}`}
+                        className="flex justify-between py-1"
+                      >
+                        <span className="text-muted-foreground">
+                          {item.label}
+                        </span>
+                        <span className={item.className}>{item.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        )}
       </div>
     </div>
   )
